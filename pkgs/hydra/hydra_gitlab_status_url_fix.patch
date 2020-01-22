@@ -1,0 +1,14 @@
+diff --git a/src/lib/Hydra/Plugin/GitlabStatus.pm b/src/lib/Hydra/Plugin/GitlabStatus.pm
+index aa13ac12..71d1f28a 100644
+--- a/src/lib/Hydra/Plugin/GitlabStatus.pm
++++ b/src/lib/Hydra/Plugin/GitlabStatus.pm
+@@ -66,8 +66,7 @@ sub common {
+             my $projectId = $eval->jobsetevalinputs->find({ name => "gitlab_project_id" })->value;
+             my $accessToken = getGitlabAccessToken();
+             my $rev = $i->revision;
+-            my $domain = URI->new($i->uri)->host;
+-            my $url = "https://$domain/api/v4/projects/$projectId/statuses/$rev";
++            my $url = "https://gitlab.vpn.cyberus-technology.de/api/v4/projects/$projectId/statuses/$rev";
+             print STDERR "GitlabStatus POSTing $state to $url\n";
+             my $req = HTTP::Request->new('POST', $url);
+             $req->header('Content-Type' => 'application/json');

@@ -1,0 +1,75 @@
+{
+    "bender": {
+        "branch": "release-1.0",
+        "description": "A multiboot chainloader that makes PCI serial cards available for legacy use",
+        "homepage": null,
+        "owner": "blitz",
+        "repo": "bender",
+        "rev": "2c449524be4ea9fbb86b4e19d95fcfdc0a3bff0f",
+        "sha256": "0xmy4izgxwxg10cc1q7q3zhzp01nk3dwr2hbq7vrbmk8j1z0r4yz",
+        "type": "tarball",
+        "url": "https://github.com/blitz/bender/archive/2c449524be4ea9fbb86b4e19d95fcfdc0a3bff0f.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz",
+        "version": "1.0.0"
+    },
+    "hamtsolo": {
+        "branch": "master",
+        "description": "Intel AMT Serial-Over-LAN (SOL) client",
+        "homepage": "",
+        "owner": "tfc",
+        "repo": "hamtsolo",
+        "rev": "694397b6c959918a6a801ae870c8afa7d51cb4cb",
+        "sha256": "1l8bi3qc7fnfbjrfpz3k04ndfrnc7j0i35l1c6i4irmxhpkc95cj",
+        "type": "tarball",
+        "url": "https://github.com/tfc/hamtsolo/archive/694397b6c959918a6a801ae870c8afa7d51cb4cb.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "hydra": {
+        "branch": "master",
+        "description": "Hydra, the Nix-based continuous build system",
+        "homepage": "http://nixos.org/hydra",
+        "owner": "NixOS",
+        "repo": "hydra",
+        "rev": "5c0c7d52a01c04d17e2c7fbfc36fd409862556ec",
+        "sha256": "13fk1cwb68gxf3p2p2knzx2wma0s3qgf3i9fq8xsallbmrqr0gm4",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/hydra/archive/5c0c7d52a01c04d17e2c7fbfc36fd409862556ec.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "ipxe": {
+        "branch": "master",
+        "description": "iPXE network bootloader.  This is a mirror of the iPXE git tree at http://git.ipxe.org/ipxe.git",
+        "homepage": "http://ipxe.org",
+        "owner": "ipxe",
+        "repo": "ipxe",
+        "rev": "3fe683ebab29afacf224e6b0921f6329bebcdca7",
+        "sha256": "0r3nsh0fg19hv9zwyysk11nr671fjvv0glw3lhb3xwhwk14ffamf",
+        "type": "tarball",
+        "url": "https://github.com/ipxe/ipxe/archive/3fe683ebab29afacf224e6b0921f6329bebcdca7.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs": {
+        "branch": "nixos-unstable",
+        "description": "Nix Packages collection",
+        "homepage": null,
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "9beb0d1ac2ebd6063efbdc4d3631f8ce137bbf90",
+        "sha256": "1v95779di35qhrz70p2v27kmwm09h8pgh74i1wc72v0zp3bdrf50",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/9beb0d1ac2ebd6063efbdc4d3631f8ce137bbf90.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "tup": {
+        "branch": "master",
+        "description": "Tup is a file-based build system.",
+        "homepage": "http://gittup.org/tup/",
+        "owner": "gittup",
+        "repo": "tup",
+        "rev": "1d2fd51418cc8dd7d1a526fff55e65329b02b13e",
+        "sha256": "1xxq4rwixfgy6ycmjphj1v1642avwpxdq37ykrwpfk6zv0qm9lj6",
+        "type": "tarball",
+        "url": "https://github.com/gittup/tup/archive/1d2fd51418cc8dd7d1a526fff55e65329b02b13e.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    }
+}

@@ -1,0 +1,33 @@
+#!/usr/bin/env expect
+
+set cpus 1
+set kernel [lindex $argv 0]
+set kernel $::env(kernelFile)
+set initrd $::env(initrdFile)
+set timeoutSeconds $::env(timeoutSeconds)
+
+spawn qemu-system-x86_64 \
+    -machine q35,accel=kvm \
+    -m 2048 \
+    -nographic \
+    -net none \
+    -no-reboot \
+    -kernel "$kernel" \
+    -append "console=ttyS0 root=/dev/ram rw" \
+    -initrd "$initrd"
+
+# Consider timeouts and early EOFs as failure.
+expect_before {
+    timeout { puts "Failed: Timeout";   exit 1 }
+    eof     { puts "Failed: Early EOF"; exit 2 }
+}
+
+# Qemu might take some time to come up.
+set timeout 60
+expect "Linux version"
+
+set timeout $timeoutSeconds
+
+expect "SOTEST END"
+
+close
