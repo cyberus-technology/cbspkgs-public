@@ -22,6 +22,11 @@ in stdenv.mkDerivation rec {
 
   NIX_CFLAGS_COMPILE = "-Wno-error"; # project is no warning-free build
 
+  # Enable serial output
+  postPatch = ''
+    sed -i 's;^//\(#define\s\+CONSOLE_SERIAL\);\1;' src/config/console.h
+  '';
+
   makeFlags = [
     "ECHO_E_BIN_ECHO=echo" "ECHO_E_BIN_ECHO_E=echo" # No /bin/echo here.
     "EMBED=${embedScript}"
@@ -46,4 +51,3 @@ in stdenv.mkDerivation rec {
     license = licenses.gpl2;
   };
 }
-
