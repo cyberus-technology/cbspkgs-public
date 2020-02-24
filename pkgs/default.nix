@@ -5,8 +5,6 @@ let
 in rec {
   bender = pkgs.callPackage niv.bender {};
 
-  cbspkgs = callPackage ./cbspkgs {};
-
   hydra = pkgs.callPackage ./hydra { src = niv.hydra; };
 
   initrds = import ./initrd-creator/release.nix { inherit pkgs cbsLib; };
