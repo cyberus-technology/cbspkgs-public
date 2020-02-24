@@ -4,9 +4,12 @@ let
   hydra = import "${src}/release.nix" {
     hydraSrc = src;
 
-    # hydra is broken with nixpkgs-unstable, so we temporarily use the default channel defined by
-    # hydra itself, which right now points to nixos-19.09-small
-    # nixpkgs = pkgs.path;
+    # the targeted hydra version needs a specific nixpkgs snapshot to build, which can't be too new.
+    # this is the latest snapshot we can use before it breaks
+    nixpkgs = builtins.fetchTarball {
+      url = "https://github.com/NixOS/nixpkgs/archive/9fef2ce7cfb1b6b7ea28948878311947f1681b04.tar.gz";
+      sha256 = "0qs6vk24ivn75k071jv8rgnswpys27wlfl98dg77dv2vsi56ldlc";
+    };
   };
 in hydra.build.x86_64-linux.overrideAttrs (old: rec {
   version = "${src.rev}-gitlab-patches";
