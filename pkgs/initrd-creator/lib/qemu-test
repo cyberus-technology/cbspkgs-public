@@ -3,18 +3,17 @@
 set cpus 1
 set kernel [lindex $argv 0]
 set kernel $::env(kernelFile)
-set initrd $::env(initrdFile)
+set initrd $::env(initrd)
+set cmdline $::env(linuxCmd)
 set timeoutSeconds $::env(timeoutSeconds)
 
-spawn qemu-system-x86_64 \
-    -machine q35,accel=kvm \
-    -m 2048 \
-    -nographic \
-    -net none \
-    -no-reboot \
-    -kernel "$kernel" \
-    -append "console=ttyS0 root=/dev/ram rw" \
-    -initrd "$initrd"
+set qemuArgs "-machine q35,accel=kvm -m 2048 -nographic -net none -no-reboot -cpu host,+vmx -kernel $kernel -initrd $initrd"
+
+if {$cmdline != ""} {
+    append qemuArgs " -append $cmdline"
+}
+
+eval spawn qemu-system-x86_64 $qemuArgs
 
 # Consider timeouts and early EOFs as failure.
 expect_before {
