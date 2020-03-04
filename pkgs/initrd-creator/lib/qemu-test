@@ -2,16 +2,8 @@
 
 set cpus 1
 set kernel [lindex $argv 0]
-set kernel $::env(kernelFile)
-set initrd $::env(initrd)
-set cmdline $::env(linuxCmd)
 set timeoutSeconds $::env(timeoutSeconds)
-
-set qemuArgs "-machine q35,accel=kvm -m 2048 -nographic -net none -no-reboot -cpu host,+vmx -kernel $kernel -initrd $initrd"
-
-if {$cmdline != ""} {
-    append qemuArgs " -append $cmdline"
-}
+set qemuArgs $::env(qemuArgs)
 
 eval spawn qemu-system-x86_64 $qemuArgs
 

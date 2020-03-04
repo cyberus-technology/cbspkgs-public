@@ -5,16 +5,22 @@ pkgs:
   timeoutSeconds ? 600
 }:
 let
-  linuxCmd = "\"console=ttyS0 root=/dev/ram rw\"";
+  qemuString = pkgs.lib.concatStringsSep " " [
+    "-machine q35,accel=kvm"
+    "-m 2048"
+    "-nographic"
+    "-net none"
+    "-no-reboot"
+    ''-kernel "${pkgs.linuxPackages_latest.kernel}/bzImage"''
+    ''-append "console=ttyS0 root=/dev/ram rw"''
+  ];
 in pkgs.runCommandNoCC "initrd-tests" {
   nativeBuildInputs = with pkgs; [
     qemu
     expect
   ];
 
-  kernelFile = "${pkgs.linuxPackages_latest.kernel}/bzImage";
-  inherit initrd;
-  inherit linuxCmd;
+  qemuArgs = qemuString + " -initrd ${initrd}";
   inherit timeoutSeconds;
 } ''
   cp ${./qemu-test} qemu-test
