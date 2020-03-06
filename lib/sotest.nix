@@ -4,12 +4,14 @@ with pkgs.lib;
 
 rec {
   projectConfigJSON = {
+      machines ? [],
       boot_prerequisites ? [],
       extra_dependencies ? [],
       boot_panic_patterns ? [],
       boot_items ? []
     }: builtins.toJSON {
       inherit
+        machines
         boot_items
         boot_panic_patterns
         boot_prerequisites
