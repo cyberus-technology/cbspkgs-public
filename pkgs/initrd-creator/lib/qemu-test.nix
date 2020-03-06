@@ -5,7 +5,7 @@ pkgs:
   timeoutSeconds ? 600
 }:
 let
-  linuxCmd = "\"console=ttyS0 root=/dev/ram rw\"";
+  linuxCmd = "console=ttyS0 root=/dev/ram rw";
 in pkgs.runCommandNoCC "initrd-tests" {
   nativeBuildInputs = with pkgs; [
     qemu
