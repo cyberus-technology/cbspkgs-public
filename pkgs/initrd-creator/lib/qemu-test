@@ -6,8 +6,9 @@ set kernel $::env(kernelFile)
 set initrd $::env(initrd)
 set cmdline $::env(linuxCmd)
 set timeoutSeconds $::env(timeoutSeconds)
+set qemuArgs $::env(qemuArguments)
 
-set qemuArgs "-machine q35,accel=kvm -m 4096 -nographic -net none -no-reboot -cpu host,+vmx -kernel \"$kernel\" -initrd \"$initrd\""
+append qemuArgs " -kernel \"$kernel\" -initrd \"$initrd\""
 
 if {$cmdline != ""} {
     append qemuArgs " -append \"$cmdline\""
