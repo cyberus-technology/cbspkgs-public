@@ -1,5 +1,5 @@
 {
-  efi ? false,
+  efi ? true,
   legacy ? true,
   lib,
   openssl,
@@ -48,14 +48,12 @@ in stdenv.mkDerivation rec {
     echo "nix-build out $out" > $out/nix-support/hydra-build-products
 
     ${lib.optionalString (legacy) ''
-      cp bin/ipxe.kpxe $out/ipxe.kpxe
-      chmod 555 $out/ipxe.kpxe
+      install -m 555 bin/ipxe.kpxe $out/ipxe.kpxe
       echo "file binary-dist $out/ipxe.kpxe" >> $out/nix-support/hydra-build-products
     ''}
 
     ${lib.optionalString (efi) ''
-      cp bin-x86_64-efi/ipxe.efi $out/ipxe.efi
-      chmod 555 $out/ipxe.efi
+      install -m 555 bin-x86_64-efi/ipxe.efi $out/ipxe.efi
       echo "file binary-dist $out/ipxe.efi" >> $out/nix-support/hydra-build-products
     ''}
   '';
