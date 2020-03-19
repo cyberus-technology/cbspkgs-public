@@ -48,12 +48,12 @@ in stdenv.mkDerivation rec {
     echo "nix-build out $out" > $out/nix-support/hydra-build-products
 
     ${lib.optionalString (legacy) ''
-      install -m 555 bin/ipxe.kpxe $out/ipxe.kpxe
+      install -m 444 bin/ipxe.kpxe $out/ipxe.kpxe
       echo "file binary-dist $out/ipxe.kpxe" >> $out/nix-support/hydra-build-products
     ''}
 
     ${lib.optionalString (efi) ''
-      install -m 555 bin-x86_64-efi/ipxe.efi $out/ipxe.efi
+      install -m 444 bin-x86_64-efi/ipxe.efi $out/ipxe.efi
       echo "file binary-dist $out/ipxe.efi" >> $out/nix-support/hydra-build-products
     ''}
   '';
