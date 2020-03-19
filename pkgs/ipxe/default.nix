@@ -1,4 +1,15 @@
-{ stdenv, writeText, perl, xz, openssl, src, lib }:
+{
+  efi ? true,
+  legacy ? true,
+  lib,
+  openssl,
+  perl,
+  src,
+  stdenv,
+  writeText,
+  xz
+}:
+
 let
   embedScript = writeText "embed.ipxe" ''
     #!ipxe
@@ -25,8 +36,8 @@ in stdenv.mkDerivation rec {
   makeFlags = [
     "ECHO_E_BIN_ECHO=echo" "ECHO_E_BIN_ECHO_E=echo" # No /bin/echo here.
     "EMBED=${embedScript}"
-    "bin/ipxe.kpxe"
-  ];
+  ] ++ lib.optional (legacy) "bin/ipxe.kpxe"
+    ++ lib.optional (efi) "bin-x86_64-efi/ipxe.efi";
 
   preBuild = "cd src";
 
@@ -34,10 +45,17 @@ in stdenv.mkDerivation rec {
 
   installPhase = ''
     mkdir -p $out/nix-support
-    cp bin/ipxe.kpxe $out/ipxe.kpxe
-    chmod 555 $out/ipxe.kpxe
     echo "nix-build out $out" > $out/nix-support/hydra-build-products
-    echo "file binary-dist $out/ipxe.kpxe" >> $out/nix-support/hydra-build-products
+
+    ${lib.optionalString (legacy) ''
+      install -m 444 bin/ipxe.kpxe $out/ipxe.kpxe
+      echo "file binary-dist $out/ipxe.kpxe" >> $out/nix-support/hydra-build-products
+    ''}
+
+    ${lib.optionalString (efi) ''
+      install -m 444 bin-x86_64-efi/ipxe.efi $out/ipxe.efi
+      echo "file binary-dist $out/ipxe.efi" >> $out/nix-support/hydra-build-products
+    ''}
   '';
 
   meta = with stdenv.lib; {
