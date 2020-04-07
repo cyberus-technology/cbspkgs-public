@@ -1,7 +1,7 @@
 {
   niv ? import nix/sources.nix,
   nixpkgs ? niv.nixpkgs,
-  pkgs ? import nixpkgs { config = { allowUnfree = true; }; }
+  pkgs ? import nixpkgs {}
 }:
 rec {
   inherit (niv) nixpkgs;
