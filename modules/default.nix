@@ -1,4 +1,4 @@
-{ niv, cbspkgs, pkgs }:
+{ niv }:
 {
-  hydra = "${niv.hydra}/hydra-module.nix";
+  hydra = import "${niv.hydra}/hydra-module.nix";
 }

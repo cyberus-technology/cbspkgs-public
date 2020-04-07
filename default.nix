@@ -1,14 +1,34 @@
 {
   niv ? import nix/sources.nix,
-  pkgs ? import niv.nixpkgs { config = { allowUnfree = true; }; }
+  nixpkgs ? niv.nixpkgs,
+  pkgs ? import nixpkgs { config = { allowUnfree = true; }; }
 }:
-let
-  cbsLib = import ./lib { inherit pkgs; };
-  cbspkgs = import ./pkgs { inherit niv pkgs cbsLib; };
-  cbsModules = import ./modules { inherit niv cbspkgs pkgs; };
-in cbspkgs //
-  {
-    lib = cbsLib;
-    nixpkgs = pkgs;
-    modules = cbsModules;
-  }
+rec {
+  inherit (niv) nixpkgs;
+  lib = import ./lib { inherit pkgs; };
+  modules = import ./modules { inherit niv; };
+
+  bender = pkgs.callPackage niv.bender {};
+
+  hydra = pkgs.callPackage ./pkgs/hydra { src = niv.hydra; };
+
+  initrds = import ./pkgs/initrd-creator/release.nix {
+    inherit pkgs ;
+    cbsLib = lib;
+  };
+
+  ipxe = pkgs.callPackage ./pkgs/ipxe { src = niv.ipxe; };
+
+  run-sotest = pkgs.callPackage ./pkgs/run-sotest {};
+
+  sotest-kernels = import ./pkgs/kernels { inherit pkgs; };
+
+  sotest-testruns = import ./pkgs/sotest-testruns {
+    inherit pkgs;
+    inherit (initrds) initrds;
+    cbsLib = lib;
+    kernels = sotest-kernels;
+  };
+
+  tup = pkgs.callPackage ./pkgs/tup { src = niv.tup; };
+}
