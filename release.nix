@@ -9,9 +9,10 @@ let
   libtests = import ./lib/tests { inherit cbsLib; };
 
   flatten = with pkgs.lib; collect isDerivation;
+  attrFilter = n: _: n != "lib" && n != "modules" && n != "nixpkgs";
 in
   assert libtests;
-  pkgs.cbspkgs
+  pkgs.lib.filterAttrs attrFilter pkgs.cbspkgs
   // { inherit tests; }
   // {
     # we need this dummy job to make hydra's gitlab status plugin reliable

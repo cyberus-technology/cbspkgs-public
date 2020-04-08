@@ -4,21 +4,6 @@
 
 self: super:
 
-let
-
-  isReserved = n:
-    n == "lib" || n == "modules" || n == "nixpkgs" || n == "overlays";
-  nameValuePair = name: value: { inherit name value; };
-  cbspkgs = import ./default.nix { pkgs = super; };
-
-in with builtins;
-
 {
-  cbspkgs = listToAttrs (map
-    (name: nameValuePair name cbspkgs.${name})
-    (filter
-      (name: !isReserved name)
-      (attrNames cbspkgs)
-    )
-  );
+  cbspkgs = import ./default.nix { pkgs = super; };
 }
