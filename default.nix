@@ -3,32 +3,38 @@
   nixpkgs ? niv.nixpkgs,
   pkgs ? import nixpkgs {}
 }:
-rec {
-  inherit (niv) nixpkgs;
+
+let
   lib = import ./lib { inherit pkgs; };
+  initrdSet = import ./pkgs/initrd-creator/release.nix {
+    inherit pkgs;
+    cbsLib = lib;
+  };
+  kernelSet = import ./pkgs/kernels { inherit pkgs; };
+in pkgs.recurseIntoAttrs rec {
+  inherit (niv) nixpkgs;
+  inherit lib;
   modules = import ./modules { inherit niv; };
 
   bender = pkgs.callPackage niv.bender {};
 
   hydra = pkgs.callPackage ./pkgs/hydra { src = niv.hydra; };
 
-  initrds = import ./pkgs/initrd-creator/release.nix {
-    inherit pkgs ;
-    cbsLib = lib;
-  };
+  initrds = pkgs.recurseIntoAttrs
+    (builtins.mapAttrs (_: pkgs.recurseIntoAttrs) initrdSet);
 
   ipxe = pkgs.callPackage ./pkgs/ipxe { src = niv.ipxe; };
 
   run-sotest = pkgs.callPackage ./pkgs/run-sotest {};
 
-  sotest-kernels = import ./pkgs/kernels { inherit pkgs; };
+  sotest-kernels = pkgs.recurseIntoAttrs kernelSet;
 
-  sotest-testruns = import ./pkgs/sotest-testruns {
+  sotest-testruns = pkgs.recurseIntoAttrs (import ./pkgs/sotest-testruns {
     inherit pkgs;
-    inherit (initrds) initrds;
+    inherit (initrdSet) initrds;
     cbsLib = lib;
-    kernels = sotest-kernels;
-  };
+    kernels = kernelSet;
+  });
 
   tup = pkgs.callPackage ./pkgs/tup { src = niv.tup; };
 }
