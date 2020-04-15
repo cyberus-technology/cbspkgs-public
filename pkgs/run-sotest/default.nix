@@ -23,7 +23,7 @@ python3Packages.buildPythonApplication rec {
     '';
 
     homepage = "https://sotest.io/";
-    license = licenses.unfree;
+    license = licenses.mit;
     platforms = platforms.all;
   };
 }
