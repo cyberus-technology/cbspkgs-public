@@ -4,7 +4,7 @@
   pkgs ? import nixpkgs { overlays = [ (import ./overlay.nix) ]; }
 }:
 let
-  cbsLib = (import ./default.nix { inherit nixpkgs; }).lib;
+  cbsLib = pkgs.cbspkgs.lib;
   tests = import ./tests { inherit nixpkgs; };
   libtests = import ./lib/tests { inherit cbsLib; };
 
