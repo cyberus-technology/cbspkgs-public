@@ -11,7 +11,7 @@ let
     cbsLib = lib;
   };
   kernelSet = import ./pkgs/kernels { inherit pkgs; };
-in pkgs.recurseIntoAttrs rec {
+in pkgs.recurseIntoAttrs {
   inherit (niv) nixpkgs;
   inherit lib;
   modules = import ./modules { inherit niv; };
