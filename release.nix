@@ -15,13 +15,8 @@ let
   # it says "in job ‘randomAttr.recurseForDerivations’: unsupported value: true"
   # if these are not filtered out. It remains to be researched why this does not
   # seem to be necessary in nixpkgs where such attributes are used, too.
-  removeRecurseLabels = x: with builtins; let
-    filteredTree = listToAttrs (
-      map
-        (n: pkgs.lib.nameValuePair n (removeRecurseLabels x.${n}))
-        (filter (n: n != "recurseForDerivations") (attrNames x))
-    );
-    in if typeOf x == "set" then filteredTree else x;
+  removeRecurseLabels = pkgs.lib.filterAttrsRecursive
+    (n: _: n != "recurseForDerivations");
 in
   assert libtests;
   removeRecurseLabels (pkgs.lib.filterAttrs attrFilter pkgs.cbspkgs)
