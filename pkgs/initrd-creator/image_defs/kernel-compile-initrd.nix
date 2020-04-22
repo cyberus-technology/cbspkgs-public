@@ -38,7 +38,7 @@ let
   joinStrings = f: l: builtins.concatStringsSep ":" (map f l);
   includeFlags = joinStrings (x: "${lib.getDev x}/include") hostLibPackages;
   linkFlags = joinStrings (x: "${lib.getLib x}/lib") hostLibPackages;
-in (import ../lib/patched-make-initrd.nix { inherit pkgs; } {
+in (cbsLib.makeInitrd {
   pathPkgs = [
     bc
     binutils
