@@ -7,7 +7,7 @@
   pkgs
 }:
 
-import ../lib/patched-make-initrd.nix { inherit pkgs; } {
+cbsLib.makeInitrd {
   pathPkgs = [ coreutils dmidecode ];
 
   initScript = cbsLib.writers.writeBashScript "myInitScript" ''

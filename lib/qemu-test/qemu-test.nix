@@ -1,4 +1,4 @@
-pkgs:
+{ pkgs }:
 
 { initrd, timeoutSeconds ? 600 }:
 let
