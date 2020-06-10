@@ -6,7 +6,7 @@
 
 { pkgs }:
 
-{ initScript, additionalContents ? [], name ? "initrd", pathPkgs ? [] }:
+{ initScript, additionalContents ? [], name ? "initrd", pathPkgs ? [], prepend ? [] }:
 
 let
   fileSizeList = pkgs.writeText "stats.sh" ''
@@ -56,4 +56,4 @@ let
     object = initScriptFrame;
     symlink = "/init";
   } ];
-in (f { inherit name; contents = initScriptContent ++ additionalContents; }) // { timeoutSeconds = 60; }
+in (f { inherit name prepend; contents = initScriptContent ++ additionalContents; }) // { timeoutSeconds = 60; }
