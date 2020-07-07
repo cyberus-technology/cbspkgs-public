@@ -14,7 +14,7 @@ in {
 
   bender = super.callPackage sources.bender {};
 
-  hydra = super.callPackage sources.hydra {};
+  hydra = super.callPackage ../pkgs/hydra { src = sources.hydra; };
 
   ipxe = super.callPackage ../pkgs/ipxe { src = sources.ipxe; };
 
