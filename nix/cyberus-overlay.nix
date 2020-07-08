@@ -16,6 +16,9 @@ in {
 
   hydra = super.callPackage ../pkgs/hydra { src = sources.hydra; };
 
+  initrds = self.recurseIntoAttrs
+    (builtins.mapAttrs (_: self.recurseIntoAttrs) initrdSet);
+
   ipxe = super.callPackage ../pkgs/ipxe { src = sources.ipxe; };
 
   run-sotest = super.callPackage ../pkgs/run-sotest {};
