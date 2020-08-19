@@ -9,5 +9,6 @@
 
 {
   inherit pkgs;
+  inherit (ovl) overlays;
   nixpkgs = sources.nixpkgs;
 }
