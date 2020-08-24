@@ -7,7 +7,7 @@
   writeBashScript = pkgs.writers.makeScriptWriter {
     interpreter = "${pkgs.bash}/bin/bash";
     check = pkgs.writeShellScript "shellcheck.sh" ''
-      ${pkgs.shellcheck}/bin/shellcheck "$1"
+      ${pkgs.shellcheck}/bin/shellcheck --external-sources "$1"
     '';
   };
 }
