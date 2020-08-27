@@ -14,8 +14,6 @@ in {
 
   bender = super.callPackage sources.bender {};
 
-  hydra = super.callPackage ../pkgs/hydra { src = sources.hydra; };
-
   initrds = self.recurseIntoAttrs
     (builtins.mapAttrs (_: self.recurseIntoAttrs) initrdSet);
 
