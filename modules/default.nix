@@ -1,4 +1,3 @@
-{ niv }:
 {
   cyberus = {
     certificateAuthority = import ./cyberus-ca.nix;
