@@ -21,7 +21,7 @@ let
     passthrough = attrName: {
       "${attrName}" = (super.cbspkgs."${attrName}" or {}) // (current."${attrName}" or {});
     };
-    extraAttrs = builtins.foldl' (l: r: l // passthrough r) {} ["lib" "sotests" "tests"];
+    extraAttrs = builtins.foldl' (l: r: l // passthrough r) {} ["lib" "nixosModules" "sotests" "tests"];
   in
     {
       cbspkgs = (super.cbspkgs or {} // current) // extraAttrs;

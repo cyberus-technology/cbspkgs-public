@@ -9,8 +9,10 @@ let
   };
   kernelSet = import ../pkgs/kernels { pkgs = self; };
 
+  nixosModules = import ../modules;
+
 in {
-  inherit lib;
+  inherit lib nixosModules;
 
   bender = super.callPackage sources.bender {};
 
