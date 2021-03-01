@@ -1,32 +1,29 @@
-self: super:
+final: prev:
 let
   sources = import ./sources.nix;
 
-  lib = import ../lib { pkgs = super; };
+  lib = import ../lib { pkgs = final; };
   initrdSet = import ../pkgs/initrd-creator/release.nix {
-    pkgs = self;
+    pkgs = final;
     cbsLib = lib;
   };
-  kernelSet = import ../pkgs/kernels { pkgs = self; };
-
-  nixosModules = import ../modules;
-
+  kernelSet = import ../pkgs/kernels { pkgs = final; };
 in {
-  inherit lib nixosModules;
+  inherit lib;
 
-  bender = super.callPackage sources.bender {};
+  bender = prev.callPackage sources.bender {};
 
-  initrds = self.recurseIntoAttrs
-    (builtins.mapAttrs (_: self.recurseIntoAttrs) initrdSet);
+  initrds = prev.recurseIntoAttrs
+    (builtins.mapAttrs (_: prev.recurseIntoAttrs) initrdSet);
 
-  ipxe = super.callPackage ../pkgs/ipxe { src = sources.ipxe; };
+  ipxe = prev.callPackage ../pkgs/ipxe { src = sources.ipxe; };
 
-  run-sotest = super.callPackage ../pkgs/run-sotest {};
+  run-sotest = prev.callPackage ../pkgs/run-sotest {};
 
-  sotest-kernels = super.recurseIntoAttrs kernelSet;
+  sotest-kernels = prev.recurseIntoAttrs kernelSet;
 
-  sotest-testruns = super.recurseIntoAttrs (import ../pkgs/sotest-testruns {
-    pkgs = self;
+  sotest-testruns = prev.recurseIntoAttrs (import ../pkgs/sotest-testruns {
+    pkgs = prev;
     inherit (initrdSet) initrds;
     cbsLib = lib;
     kernels = kernelSet;
