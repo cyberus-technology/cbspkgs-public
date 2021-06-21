@@ -9,6 +9,7 @@
   cbsLib,
   coreutils,
   diffutils,
+  elfutils,
   fetchurl,
   findutils,
   flex,
@@ -33,7 +34,7 @@
 }:
 
 let
-  hostLibPackages = [ libelf openssl ];
+  hostLibPackages = [ elfutils libelf openssl ];
 
   joinStrings = f: l: builtins.concatStringsSep ":" (map f l);
   includeFlags = joinStrings (x: "${lib.getDev x}/include") hostLibPackages;
@@ -68,6 +69,10 @@ in (cbsLib.makeInitrd {
     # Most shellscripts in the kernel source code need this
     mkdir /bin
     ln -sf ${bash}/bin/bash /bin/sh
+
+    # linux kernel repo's scripts/ld-version.sh needs this
+    mkdir -p /usr/bin
+    ln -sf ${gawk}/bin/awk /usr/bin/awk
 
     # At some point the kernel's build system will want to create files here
     mkdir /tmp
