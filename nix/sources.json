@@ -59,17 +59,5 @@
         "type": "tarball",
         "url": "https://github.com/NixOS/nixpkgs/archive/02203c195495aeb5fa1eeffea6cfa8a291de05a8.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
-    },
-    "tup": {
-        "branch": "master",
-        "description": "Tup is a file-based build system.",
-        "homepage": "http://gittup.org/tup/",
-        "owner": "gittup",
-        "repo": "tup",
-        "rev": "1d2fd51418cc8dd7d1a526fff55e65329b02b13e",
-        "sha256": "1xxq4rwixfgy6ycmjphj1v1642avwpxdq37ykrwpfk6zv0qm9lj6",
-        "type": "tarball",
-        "url": "https://github.com/gittup/tup/archive/1d2fd51418cc8dd7d1a526fff55e65329b02b13e.tar.gz",
-        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
