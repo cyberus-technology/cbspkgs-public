@@ -13,7 +13,7 @@ import time
 
 
 def parse_cmdline_args():
-    """ Command line parsing """
+    """Command line parsing"""
     parser = argparse.ArgumentParser(description="Sotest Test Creator")
     parser.add_argument("sotest_url", help="Base URL to SoTest's web UI")
     parser.add_argument("sotest_config", help="Config with a list of boot items")
@@ -47,7 +47,7 @@ def parse_cmdline_args():
 
 
 def create_test_run(args):
-    """ Creates a Sotest test run for the given config """
+    """Creates a Sotest test run for the given config"""
     url = "{}/api/create".format(args.sotest_url)
     files = {"config": open(args.sotest_config, "rb")}
     params = {
@@ -73,14 +73,14 @@ def create_test_run(args):
 
 
 def query_test_run(sotest_url, testrun_id):
-    """ Queries the status of a test run """
+    """Queries the status of a test run"""
     url = "{}/api/query/{}".format(sotest_url, testrun_id)
     r = requests.get(url)
     return r.json()
 
 
 def poll_test_run(sotest_url, testrun_id):
-    """ Queries the status of a test run until it is no longer running and handles the result """
+    """Queries the status of a test run until it is no longer running and handles the result"""
     while True:
         result = query_test_run(sotest_url, testrun_id)
         if result["tag"] != "UNFINISHED":
