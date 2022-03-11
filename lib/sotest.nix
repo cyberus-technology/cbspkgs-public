@@ -12,12 +12,14 @@ rec {
     , extra_dependencies ? []
     , boot_panic_patterns ? []
     , boot_items ? []
+    , local_tags_list ? []
     }: builtins.toJSON {
       inherit
         boot_items
         boot_panic_patterns
         boot_prerequisites
         extra_dependencies
+        local_tags_list
         ;
     };
 
