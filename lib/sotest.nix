@@ -74,12 +74,15 @@ rec {
   # automatically generated ZIP bundle containing all dependencies as well as
   # the test run document with corrected paths that match the ZIP bundle's
   # content.
-  projectBundleFromTestrunClosure = testrunDoc: pkgs.runCommandNoCC "${testrunDoc.name}-sotest-bundle" {} ''
-    mkdir $out
-    ln -sf ${zipBundleFromTestrunClosure testrunDoc} $out/bundle.zip
-    FILE=${testrunDoc}
-    sed 's#/nix/store/##g' ${testrunDoc} > $out/project-config.''${FILE##*.}
-  '';
+  projectBundleFromTestrunClosure = pkgs.lib.warn
+    ("Using projectBundleFromTestrunClosure is deprecated. " ++
+      "Use mkProjectBundle instead.")
+    (testrunDoc: pkgs.runCommandNoCC "${testrunDoc.name}-sotest-bundle" { } ''
+      mkdir $out
+      ln -sf ${zipBundleFromTestrunClosure testrunDoc} $out/bundle.zip
+      FILE=${testrunDoc}
+      sed 's#/nix/store/##g' ${testrunDoc} > $out/project-config.''${FILE##*.}
+    '');
 
   # This is a simple helper function that creates a standard boot item for
   # sotest from a kernel-ramdisk pair
