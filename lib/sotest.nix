@@ -4,7 +4,7 @@ with pkgs.lib;
 
 rec {
   # Create an attribute set of a sotest test run with the format specified in
-  # https://docs.sotest.io/project_config
+  # https://docs.sotest.io/user/project_config
   # In order to upload it to a sotest instance, it should be converted to
   # JSON or YAML, see `asJSONFile` and `asYAMLFile`.
   projectConfigJSON =
