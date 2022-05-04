@@ -75,7 +75,7 @@ rec {
   # the test run document with corrected paths that match the ZIP bundle's
   # content.
   projectBundleFromTestrunClosure = pkgs.lib.warn
-    ("Using projectBundleFromTestrunClosure is deprecated. " ++
+    ("Using projectBundleFromTestrunClosure is deprecated. " +
       "Use mkProjectBundle instead.")
     (testrunDoc: pkgs.runCommandNoCC "${testrunDoc.name}-sotest-bundle" { } ''
       mkdir $out
