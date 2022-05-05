@@ -108,7 +108,7 @@ def main():
     tr_id = create_test_run(cmdline_args)
 
     # Flush output of the URL, so users see the URL while waiting.
-    print("{}/results/{}".format(cmdline_args.sotest_url, tr_id), flush=True)
+    print("{}/test_runs/{}".format(cmdline_args.sotest_url, tr_id), flush=True)
 
     if cmdline_args.poll:
         poll_test_run(cmdline_args.sotest_url, tr_id)
