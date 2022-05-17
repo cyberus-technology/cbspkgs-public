@@ -11,6 +11,9 @@ import requests
 import sys
 import time
 
+HTTP_STATUS_OK = 200
+REQUEST_HEADERS = {"Accept": "application/json"}
+
 
 def parse_cmdline_args():
     """Command line parsing"""
@@ -48,7 +51,7 @@ def parse_cmdline_args():
 
 def create_test_run(args):
     """Creates a Sotest test run for the given config"""
-    url = "{}/api/create".format(args.sotest_url)
+    url = "{}/test_runs".format(args.sotest_url)
     files = {"config": open(args.sotest_config, "rb")}
     params = {
         "boot_files_url": args.boot_files,
@@ -65,7 +68,6 @@ def create_test_run(args):
     else:
         r = requests.post(url, files=files, data=params)
 
-    HTTP_STATUS_OK = 200
     if r.status_code != HTTP_STATUS_OK:
         sys.exit("Testrun Creation failed: {}".format(r.text))
 
@@ -74,8 +76,12 @@ def create_test_run(args):
 
 def query_test_run(sotest_url, testrun_id):
     """Queries the status of a test run"""
-    url = "{}/api/query/{}".format(sotest_url, testrun_id)
-    r = requests.get(url)
+    url = "{}/test_runs/{}/status".format(sotest_url, testrun_id)
+    r = requests.get(url, headers=REQUEST_HEADERS)
+
+    if r.status_code != HTTP_STATUS_OK:
+        sys.exit("Testrun query failed: {}".format(r.text))
+
     return r.json()
 
 
@@ -83,18 +89,16 @@ def poll_test_run(sotest_url, testrun_id):
     """Queries the status of a test run until it is no longer running and handles the result"""
     while True:
         result = query_test_run(sotest_url, testrun_id)
-        if result["tag"] != "UNFINISHED":
+        if result != "unfinished":
             break
         time.sleep(10)
 
-    if result["tag"] == "SUCCESS":
+    if result == "success":
         print("Test successful")
-    elif result["tag"] == "FAIL":
+    elif result == "fail":
         sys.exit("Test failed")
-    elif result["tag"] == "DISABLED":
+    elif result == "disabled":
         sys.exit("Test has been aborted")
-    elif result["tag"] == "ERROR":
-        sys.exit("Error: {}".format(result["contents"]))
     else:
         sys.exit("Unexpected response: {}".format(result))
 
