@@ -20,7 +20,9 @@ def parse_cmdline_args():
     parser = argparse.ArgumentParser(description="Sotest Test Creator")
     parser.add_argument("sotest_url", help="Base URL to SoTest's web UI")
     parser.add_argument("sotest_config", help="Config with a list of boot items")
-    parser.add_argument("--boot_files", required=True, help="URL to an artifacts.zip")
+    parser.add_argument(
+        "--boot_files", required=True, help="URL or local path to an artifacts.zip"
+    )
     parser.add_argument(
         "--url", required=True, help="URL to be linked to in the web UI"
     )
@@ -54,12 +56,17 @@ def create_test_run(args):
     url = "{}/test_runs".format(args.sotest_url)
     files = {"config": open(args.sotest_config, "rb")}
     params = {
-        "boot_files_url": args.boot_files,
         "url": args.url,
         "user": args.user,
         "name": args.name,
         "priority": args.priority,
     }
+
+    # Check if boot files are a valid local path, assume URL otherwise
+    try:
+        files["boot_files"] = open(args.boot_files, "rb")
+    except:
+        params["boot_files_url"] = args.boot_files
 
     auth_user = os.environ.get("SOTEST_USER", None)
     auth_pass = os.environ.get("SOTEST_PASS", None)
