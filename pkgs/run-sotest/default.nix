@@ -2,7 +2,7 @@
 
 python3Packages.buildPythonApplication rec {
   pname = "run-sotest";
-  version = "1.0.0";
+  version = "1.1.0";
 
   src = ./src;
 
