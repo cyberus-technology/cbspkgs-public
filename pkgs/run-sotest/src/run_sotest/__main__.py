@@ -48,6 +48,11 @@ def parse_cmdline_args():
         default=0,
         help="Priority to be assigned to a test run. Jobs with numerically higher priority preempt lower-priority jobs. Can be negative, default = 0.",
     )
+    parser.add_argument(
+        "--testrun_id_file",
+        required=False,
+        help="File to store the created test run id in (overwrites any existing file).",
+    )
     return parser.parse_args()
 
 
@@ -91,6 +96,10 @@ def main():
 
     # Flush output of the URL, so users see the URL while waiting.
     print("{}/test_runs/{}".format(cmdline_args.sotest_url, tr_id), flush=True)
+
+    if cmdline_args.testrun_id_file:
+        with open(cmdline_args.testrun_id_file, "w") as fil:
+            fil.write(tr_id)
 
     if cmdline_args.poll:
         poll_test_run(cmdline_args.sotest_url, tr_id)
