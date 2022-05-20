@@ -3,20 +3,22 @@
 with pkgs.lib;
 
 let
-  pickOnlyKernel = cbsLib.sotest.pickSubPaths ["bzImage"];
   combinations = cbsLib.cartesian.cartesianProductFromSet {
-      initrd = builtins.attrValues initrds;
-      kernel = builtins.attrValues kernels;
+    initrd = builtins.attrValues initrds;
+    kernel = builtins.attrValues kernels;
+  };
+  projectConf =
+    let
+      f = { initrd, kernel }: cbsLib.sotest.linuxBootItem {
+        kernel = "${kernel}/bzImage";
+        initrd = "${initrd}/initrd";
+        name = "Kernel ${kernel.name} initrd ${initrd.name}";
+      };
+    in
+    {
+      boot_items = builtins.map f combinations;
     };
-  projectConf = let
-    f = { initrd, kernel }: cbsLib.sotest.linuxBootItem {
-      kernel = "${pickOnlyKernel kernel}/bzImage";
-      initrd = "${initrd}/initrd";
-      name = "Kernel ${kernel.name} initrd ${initrd.name}";
-    };
-  in cbsLib.sotest.asJSONFile (cbsLib.sotest.projectConfigJSON {
-    boot_items = builtins.map f combinations;
-  });
-in {
-  linux-tests = cbsLib.sotest.projectBundleFromTestrunClosure projectConf;
+in
+{
+  linux-tests = cbsLib.sotest.mkProjectBundle projectConf;
 }
