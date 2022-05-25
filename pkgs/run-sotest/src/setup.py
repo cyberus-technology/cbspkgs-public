@@ -8,5 +8,10 @@ setup(
     url="https://sotest.io/",
     description="A utility to schedule sotest test jobs",
     packages=["run_sotest"],
-    entry_points={"console_scripts": ["run_sotest = run_sotest.__main__:main"]},
+    entry_points={
+        "console_scripts": [
+            "run_sotest = run_sotest.__main__:main",
+            "poll_sotest = run_sotest.poll_app:main",
+        ]
+    },
 )
