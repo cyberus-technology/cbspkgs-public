@@ -60,7 +60,7 @@ in stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "iPXE is the leading open source network boot firmware.";
-    homepage = http://ipxe.org;
+    homepage = "http://ipxe.org";
     license = licenses.gpl2;
   };
 }
