@@ -3,7 +3,7 @@
 with pkgs.lib;
 
 let
-  combinations = cbsLib.cartesian.cartesianProductFromSet {
+  combinations = cartesianProductOfSets {
     initrd = builtins.attrValues initrds;
     kernel = builtins.attrValues kernels;
   };
